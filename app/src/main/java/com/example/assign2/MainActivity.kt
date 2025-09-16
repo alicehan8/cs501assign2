@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Scaffold
@@ -46,6 +47,9 @@ class MainActivity : ComponentActivity() {
 
                         Text("ToggleCard")
                         ToggleCard("Hello", "Goodbye", Modifier.padding(5.dp))
+
+                        Text("KotlinPracticeScreen")
+                        KotlinPracticeScreen("cat")
                     }
                 }
             }
@@ -87,6 +91,34 @@ fun ToggleCard(initMessage: String, changeMessage: String, modifier: Modifier) {
     }
 }
 
+@Composable
+fun KotlinPracticeScreen(input: String, modifier: Modifier = Modifier) {
+    val sound = when (input) {
+        "cat" -> "meow"
+        "dog" -> "woof"
+        "cow" -> "moo"
+        "fish" -> "glug"
+        else -> "I don't know that animal"
+    }
+
+    var count by remember { mutableStateOf(0) }
+    var errorText by remember { mutableStateOf<String?>(null)}
+
+    Text("$input goes $sound")
+    Button(onClick = {
+        if (count <5) {
+            count = count + 1
+        }else{
+            errorText = "Count is already at 5"
+        }}){
+        Text("Increment Count")
+    }
+    Text("Count: $count")
+    errorText?.let{
+        Text(errorText?:"", color = Color.Red)
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
@@ -98,6 +130,7 @@ fun GreetingPreview() {
             ColorCard(Color.Blue, "blue", Modifier.background(Color.Cyan).size(width=100.dp, height=100.dp))
             ColorCard(Color.Green, "green", Modifier.background(Color.Yellow).padding(5.dp))
             ToggleCard("Hello", "Goodbye", Modifier.padding(5.dp))
+            KotlinPracticeScreen("cat")
         }
     }
 }
